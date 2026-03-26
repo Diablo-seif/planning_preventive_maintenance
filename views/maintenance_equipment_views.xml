@@ -1,0 +1,70 @@
+<odoo>
+    <data>
+
+
+        <record id="equipment_form_inherit" model="ir.ui.view">
+            <field name="name">equipment.form.inherit</field>
+            <field name="model">maintenance.equipment</field>
+            <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
+            <field name="arch" type="xml">
+
+<!--                <xpath expr="//sheet" position="before">-->
+<!--                    <header>-->
+
+<!--                        <button name="maintenance_request_plans"-->
+<!--                                string="Maintenance Request Plans"-->
+<!--                                type="object"-->
+<!--                                class="oe_highlight"-->
+<!--                        />-->
+<!--                    </header>-->
+
+
+<!--                </xpath>-->
+
+
+                <xpath expr="//field[@name='employee_id']" position="after">
+                    <field name="reading_unit_of_measure" string="Maintenance Procedure"/>
+                    <field name="reading" readonly="1" string="Last Read"/>
+
+
+                </xpath>
+
+
+                <xpath expr="//page[@name='maintenance']" position="after">
+
+                    <page string="Equipment Readings" name="equipment_readings">
+                        <field name="maintenance_equipment_reading_ids">
+                            <list no_open="1" create="0" default_order="reading desc">
+                                <field name="user_id" readonly="1"/>
+                                <field name="reading"/>
+                                <field name="unit_measure"/>
+                                <field name="to_day" readonly="1" optional="hide"/>
+                            </list>
+                        </field>
+                    </page>
+
+                    <page string="Maintenance Plan" name="maintenance_plan">
+                        <field name="maintenance_equipment_plan_ids">
+                            <list no_open="1" create="0" default_order="done asc, task_duration asc">
+                                <field name="tasks"/>
+                                <field name="user_id"/>
+                                <field name="interval"/>
+                                <field name="task_duration" string="Consumption"/>
+                                <field name="unit_measure"/>
+                                <field name="different"/>
+                                <field name="product_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                                <field name="to_day" invisible="1" optional="hide"/>
+                                <field name="done"/>
+                            </list>
+                        </field>
+                    </page>
+                </xpath>
+
+
+            </field>
+        </record>
+
+
+    </data>
+
+</odoo>

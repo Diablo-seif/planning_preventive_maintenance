@@ -1,0 +1,47 @@
+<odoo>
+    <data>
+        <record id="equipment_request_form_inherit" model="ir.ui.view">
+            <field name="name">equipment.request.form.inherit</field>
+            <field name="model">maintenance.request</field>
+            <field name="inherit_id" ref="maintenance.hr_equipment_request_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//header/button[@name='archive_equipment_request']" position="before">
+                    <button name="action_go_validate_spare_part"
+                            string="Get Spare Part"
+                            type="object"
+                            class="oe_highlight"
+                            invisible="done"
+                    />
+
+                </xpath>
+
+
+                <xpath expr="//notebook" position="inside">
+
+                    <page string="Spare Ordered">
+                        <field name="spare_ordered_ids">
+                            <list editable="bottom" no_open="1" create="0" delete="0">
+                                <field name="product_id"/>
+                                <field name="need" optional="hide"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="Orders Spare Parts">
+                        <field name="maintenance_request_line_ids">
+                            <list no_open="1" create="0" delete="0">
+                                <field name="product_id"/>
+                                <field name="quantity" optional="hide"/>
+                            </list>
+                        </field>
+                    </page>
+
+                </xpath>
+
+            </field>
+        </record>
+
+
+    </data>
+
+</odoo>

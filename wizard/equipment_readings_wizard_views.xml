@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+        <record id="equipment_readings_wizard_form" model="ir.ui.view">
+            <field name="name">equipment.readings.wizard</field>
+            <field name="model">equipment.readings.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Validate Spare Parts">
+                    <field name="user_id" invisible="1"/>
+                    <field name="read_line_ids">
+                        <list editable="bottom">
+                            <field name="equipment_id" options="{'no_create': True}"/>
+                            <field name="reading"/>
+                            <field name="unit_measure"/>
+                            <field name="to_day" readonly="1" optional="hide"  />
+                        </list>
+                    </field>
+                    <footer>
+                        <button name="action_confirm"  string="Confirm" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_equipment_readings_action" model="ir.actions.act_window">
+            <field name="name">Equipment Readings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">equipment.readings.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+
+</odoo>

@@ -1,0 +1,20 @@
+<odoo>
+    <data>
+        <menuitem id="menu_maintenance_ops_cat"
+                  name="Readings &amp; Operations"
+                  parent="maintenance.menu_maintenance_title"
+                  sequence="3"/>
+
+        <menuitem id="menu_equipment_reading"
+                  name="Equipment Readings"
+                  action="hr_equipment_readings_action"
+                  parent="menu_maintenance_ops_cat"
+                  sequence="5"/>
+
+        <menuitem id="menu_preventive_maintenance_plan"
+                  name="Planned Preventive"
+                  action="planned_preventive_wizard_action"
+                  parent="menu_maintenance_ops_cat"
+                  sequence="10"/>
+    </data>
+</odoo>
