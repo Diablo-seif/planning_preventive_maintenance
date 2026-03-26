@@ -7,7 +7,6 @@ access_spare_ordered,spare_ordered,model_spare_ordered,base.group_user,1,1,1,1
 access_read_line,read_line,model_read_line,base.group_user,1,1,1,1
 access_validate_spare_part_wizard,validate_spare_part_wizard,model_validate_spare_part_wizard,base.group_user,1,1,1,1
 access_validate_spare_part_wizard_line,validate_spare_part_wizard_line,model_validate_spare_part_wizard_line,base.group_user,1,1,1,1
-access_planned_preventive_wizard,planned_preventive_wizard,model_planned_preventive_wizard,base.group_user,1,1,1,1
 access_preventive_maintenance_plan,preventive_maintenance_plan,model_preventive_maintenance_plan,base.group_user,1,1,1,1
 access_maintenance_request_line,maintenance_request_line,model_maintenance_request_line,base.group_user,1,1,1,1
 
