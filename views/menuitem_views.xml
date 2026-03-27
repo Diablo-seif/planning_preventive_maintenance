@@ -16,5 +16,14 @@
                   action="planned_preventive_wizard_action"
                   parent="menu_maintenance_ops_cat"
                   sequence="10"/>
+
+
+
+        <menuitem id="menu_preventive_maintenance_plan_group"
+                  name="Planned Preventive Group"
+                  action="planned_preventive_group_wizard_action"
+                  parent="menu_maintenance_ops_cat"
+                  sequence="20"/>
+
     </data>
 </odoo>

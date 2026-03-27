@@ -14,6 +14,7 @@ class PlannedPreventive(models.TransientModel):
     preventive_maintenance_plan_ids = fields.One2many(comodel_name="preventive.maintenance.plan",
                                                       inverse_name="equipment_readings_id", string="Reading",
                                                       required=False, )
+    equipment_ids = fields.Many2many(comodel_name="maintenance.equipment", string="Equipments", )
     product_ids = fields.Many2many(
         comodel_name='product.template',
         string="Spare Parts",
@@ -22,43 +23,7 @@ class PlannedPreventive(models.TransientModel):
     tasks = fields.Char(string="Tasks", required=True)
     task_duration = fields.Float(string="Task Duration", required=False)
     interval = fields.Float(string="Interval", required=False)
-
-
-    # def action_apply(self):
-    #     for line in self.preventive_maintenance_plan_ids:
-    #         vals = {}
-    #         if self.tasks:
-    #             vals['tasks'] = self.tasks
-    #         if self.interval:
-    #             vals['interval'] = self.interval
-    #         if self.task_duration:
-    #             vals['task_duration'] = self.task_duration
-    #         if self.product_ids:
-    #             vals['product_ids'] = [(6, 0, self.product_ids.ids)]
-    #         if vals:
-    #             line.write(vals)
-
-    def action_apply(self):
-        for line in self.preventive_maintenance_plan_ids:
-            vals = {}
-            if self.tasks:
-                vals['tasks'] = self.tasks
-            if self.interval:
-                vals['interval'] = self.interval
-            if self.task_duration:
-                vals['task_duration'] = self.task_duration
-            if self.product_ids:
-                vals['product_ids'] = [(6, 0, self.product_ids.ids)]
-            if vals:
-                line.write(vals)
-
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': self._name,
-            'res_id': self.id,
-            'view_mode': 'form',
-            'target': 'new',
-        }
+    different = fields.Float(compute='_compute_different', string="Difference", required=False, store=True)
 
     def action_confirm(self):
         for wizard in self:
@@ -75,6 +40,31 @@ class PlannedPreventive(models.TransientModel):
                     'to_day': line.to_day,
                 })
         return {'type': 'ir.actions.act_window_close'}
+
+    def action_confirm_group(self):
+        for rec in self:
+            for line in rec.equipment_ids:
+                # إنشاء سجل دائم في خطة صيانة المعدة
+                self.env['maintenance.equipment.plan'].create({
+                    'maintenance_equipment_id': line.id,
+
+                    'tasks': rec.tasks,
+                    'interval': rec.interval,
+                    'task_duration': rec.task_duration,
+                    'different': rec.different,
+                    'product_ids': [(6, 0, rec.product_ids.ids)],
+                    'user_id': rec.user_id.id,
+                    'to_day': rec.name,
+                })
+        return {'type': 'ir.actions.act_window_close'}
+
+
+    @api.depends('task_duration', 'interval')
+    def _compute_different(self):
+        for rec in self:
+            rec.different = rec.task_duration - rec.interval
+
+
 
 
 class PreventiveMaintenancePlan(models.TransientModel):
