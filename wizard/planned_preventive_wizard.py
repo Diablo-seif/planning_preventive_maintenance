@@ -20,7 +20,7 @@ class PlannedPreventive(models.TransientModel):
         string="Spare Parts",
         domain=[('spare_parts_ok', '=', True)]
     )
-    tasks = fields.Char(string="Tasks", required=True)
+    tasks = fields.Char(string="Tasks", required=True, default="New")
     task_duration = fields.Float(string="Task Duration", required=False)
     interval = fields.Float(string="Interval", required=False)
     different = fields.Float(compute='_compute_different', string="Difference", required=False, store=True)
