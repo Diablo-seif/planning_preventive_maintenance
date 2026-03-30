@@ -6,7 +6,7 @@ from datetime import date
 
 
 class PlannedPreventive(models.TransientModel):
-    _name = 'planned.preventive.wizard'  # تأكد إن الاسم ده مطابق تماماً للي في الـ XML
+    _name = 'planned.preventive.wizard' 
     _description = 'Planned Preventive wizard'
 
     name = fields.Date(string="To Day", default=lambda self: date.today())
