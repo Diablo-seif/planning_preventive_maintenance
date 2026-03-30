@@ -28,7 +28,6 @@ class PlannedPreventive(models.TransientModel):
     def action_confirm(self):
         for wizard in self:
             for line in wizard.preventive_maintenance_plan_ids:
-                # إنشاء سجل دائم في خطة صيانة المعدة
                 self.env['maintenance.equipment.plan'].create({
                     'maintenance_equipment_id': line.equipment_id.id,
                     'tasks': line.tasks,
@@ -44,7 +43,6 @@ class PlannedPreventive(models.TransientModel):
     def action_confirm_group(self):
         for rec in self:
             for line in rec.equipment_ids:
-                # إنشاء سجل دائم في خطة صيانة المعدة
                 self.env['maintenance.equipment.plan'].create({
                     'maintenance_equipment_id': line.id,
 
