@@ -4,7 +4,7 @@ from datetime import date
 
 
 class EquipmentReadings(models.TransientModel):
-    _name = 'equipment.readings.wizard'  # تأكد إن الاسم ده مطابق تماماً للي في الـ XML
+    _name = 'equipment.readings.wizard' 
     _description = 'Equipment Readings Wizard'
 
     name = fields.Date(string="To Day", default=lambda self: date.today())
@@ -14,14 +14,13 @@ class EquipmentReadings(models.TransientModel):
     def action_confirm(self):
         for wizard in self:
             for line in wizard.read_line_ids:
-                # إنشاء سجل دائم لكل سطر في الويزارد
                 self.env['maintenance.equipment.readings'].create({
                     'maintenance_equipment_id': line.equipment_id.id,
                     'reading': line.reading,
                     'user_id': line.user_id.id,
                     'to_day': line.to_day,
                 })
-        return {'type': 'ir.actions.act_window_close'}  # يقفل الويزارد بعد التنفيذ
+        return {'type': 'ir.actions.act_window_close'}  
 
 class ReadLines(models.TransientModel):
     _name = 'read.line'
