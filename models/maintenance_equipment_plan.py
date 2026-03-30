@@ -19,20 +19,10 @@ class MaintenanceEquipmentPlan (models.Model):
     interval = fields.Float(string="Interval",  required=False )
     different = fields.Float(string="Difference", required=False)
 
-    # ####################################
     task_duration = fields.Float(string="Task Duration" )
 
-    # in_case = fields.Integer(
-    #     string="In Case",
-    #
-    # )
-    # ####################################
     unit_measure = fields.Selection(related='maintenance_equipment_id.reading_unit_of_measure', string="Unit Measure", readonly=True)
 
-    # in_case_unit = fields.Selection(
-    #     string="Type",
-    #     related = 'maintenance_equipment_id.reading_unit_of_measure',    )
-    # ####################################3
     product_ids = fields.Many2many(
         comodel_name='product.template',
         string="Spare Parts",
