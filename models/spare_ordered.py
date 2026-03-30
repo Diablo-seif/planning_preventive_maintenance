@@ -13,6 +13,6 @@ class SpareOrdered(models.Model):
 
 
     product_id = fields.Many2one('product.template', string="Product", domain=[('spare_parts_ok', '=', True)], readonly=True)
-    # quantity = fields.Float(string="Quantity")
+    quantity = fields.Float(string="Quantity")
     need = fields.Boolean(default=True,readonly=False)
 
