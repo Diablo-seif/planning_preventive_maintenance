@@ -86,17 +86,3 @@ class MaintenanceRequestLines(models.Model):
     def _compute_difference(self):
         for line in self:
             line.difference = line.qty_available - line.quantity if line.quantity and line.qty_available else 0.0
-
-    # @api.constrains('quantity', 'qty_available')
-    # def check_quantity(self):
-    #     for line in self:
-    #
-    #         if line.qty_available == 0:
-    #             raise ValueError("in page Orders Spare Parts \n  you don't have stock.")
-    #         if line.qty_available < 0:
-    #             raise ValueError("in page Orders Spare Parts \n  stock must be a positive number.")
-    #         if line.quantity <= 0:
-    #             raise ValidationError("in page Orders Spare Parts \n  Quantity must be a positive number.")
-    #
-    #         if line.quantity > line.qty_available:
-    #             raise ValidationError("in page Orders Spare Parts \n  Quantity must be under vals of stock.")
