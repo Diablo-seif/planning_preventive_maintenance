@@ -48,14 +48,12 @@ class ValidateSparePartWizard(models.Model):
         if not warehouse:
             raise UserError(_("No warehouse found. Please configure a warehouse first."))
 
-        stock_location = warehouse.lot_stock_id  # المخزن الرئيسي
-
-        # ✅ البحث عن الموقع الافتراضي ديناميكياً بدلاً من env.ref
+        stock_location = warehouse.lot_stock_id
+        
         source_location = self.env['stock.location'].search([
             ('usage', '=', 'production'),
         ], limit=1)
         if not source_location:
-            # fallback: موقع التعديلات المخزنية الافتراضي
             source_location = self.env['stock.location'].search([
                 ('usage', '=', 'inventory'),
             ], limit=1)
@@ -63,7 +61,6 @@ class ValidateSparePartWizard(models.Model):
             raise UserError(_("No virtual source location found. Please check your stock locations."))
 
         for line in self.line_ids:
-            # ====== استخراج المنتج بشكل صحيح ======
             product = line.product_id
             if product._name == 'product.template':
                 product = product.product_variant_id
@@ -72,7 +69,6 @@ class ValidateSparePartWizard(models.Model):
                     _("Product %s has no variant defined.") % line.product_id.name
                 )
 
-            # ====== 1. كمية موجبة → صرف من المخزن (Scrap) ======
             if line.quantity > 0:
                 scrap = self.env['stock.scrap'].create({
                     'product_id': product.id,
@@ -83,7 +79,6 @@ class ValidateSparePartWizard(models.Model):
                 })
                 scrap.action_validate()
 
-            # ====== 2. كمية سالبة → إرجاع للمخزن ======
             elif line.quantity < 0:
                 return_qty = abs(line.quantity)
 
@@ -112,7 +107,6 @@ class ValidateSparePartWizard(models.Model):
 
                 picking.action_confirm()
 
-                # إنشاء move_line يدوياً إذا لم تُنشأ تلقائياً
                 if not picking.move_line_ids:
                     for move in picking.move_ids:
                         self.env['stock.move.line'].create({
@@ -130,7 +124,6 @@ class ValidateSparePartWizard(models.Model):
 
                 picking.button_validate()
 
-            # ====== 3. تسجيل السطر في طلب الصيانة ======
             self.env['maintenance.request.line'].create({
                 'maintenance_request_id': self.maintenance_request_id.id,
                 'product_id': line.product_id.id,
@@ -162,7 +155,7 @@ class ValidateSparePartWizardLine(models.TransientModel):
         string='After Consumption',
         compute='_compute_difference',
     )
-    #
+    
 
     @api.depends('quantity', 'qty_available')
     def _compute_difference(self):
