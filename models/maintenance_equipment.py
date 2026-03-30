@@ -33,9 +33,7 @@ class MaintenanceEquipment(models.Model):
     @api.depends('maintenance_equipment_reading_ids', 'maintenance_equipment_reading_ids.reading')
     def _compute_max_reading(self):
         for equipment in self:
-            # بنجيب كل القيم من حقل reading في السجلات المرتبطة
             readings = equipment.maintenance_equipment_reading_ids.mapped('reading')
-            # لو في قيم، بنختار الكبيرة (max)، لو مفيش بنحط 0.0
             equipment.reading = max(readings) if readings else 0.0
 
     def maintenance_request_plans(self):
@@ -46,7 +44,6 @@ class MaintenanceEquipment(models.Model):
             ('maintenance_equipment_plan_ids', '!=', False),
             ('maintenance_equipment_plan_ids.done', '=', False),
         ]
-        # # all records in case
         records_to_update = self.search(target_domain)
 
         if not records_to_update:
