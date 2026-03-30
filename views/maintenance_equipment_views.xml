@@ -8,25 +8,9 @@
             <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
             <field name="arch" type="xml">
 
-<!--                <xpath expr="//sheet" position="before">-->
-<!--                    <header>-->
-
-<!--                        <button name="maintenance_request_plans"-->
-<!--                                string="Maintenance Request Plans"-->
-<!--                                type="object"-->
-<!--                                class="oe_highlight"-->
-<!--                        />-->
-<!--                    </header>-->
-
-
-<!--                </xpath>-->
-
-
                 <xpath expr="//field[@name='employee_id']" position="after">
                     <field name="reading_unit_of_measure" string="Maintenance Procedure"/>
                     <field name="reading" readonly="1" string="Last Read"/>
-
-
                 </xpath>
 
 
