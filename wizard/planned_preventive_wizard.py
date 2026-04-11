@@ -5,11 +5,7 @@ from odoo.fields import Command
 
 
 class PlannedPreventive(models.TransientModel):
-<<<<<<< HEAD
-    _name = 'planned.preventive.wizard' 
-=======
     _name = 'planned.preventive.wizard'
->>>>>>> 071c169 (Update V2)
     _description = 'Planned Preventive wizard'
 
     name = fields.Date(string="To Day", default=lambda self: date.today())
@@ -24,10 +20,7 @@ class PlannedPreventive(models.TransientModel):
         string="Spare Parts",
         domain=[('spare_parts_ok', '=', True)]
     )
-<<<<<<< HEAD
-=======
 
->>>>>>> 071c169 (Update V2)
     tasks = fields.Char(string="Tasks", required=True, default="New")
     task_duration = fields.Float(string="Task Duration", required=False)
     interval = fields.Float(string="Interval", required=False)
@@ -40,14 +33,9 @@ class PlannedPreventive(models.TransientModel):
 
 
     def action_confirm(self):
-<<<<<<< HEAD
-        for wizard in self:
-            for line in wizard.preventive_maintenance_plan_ids:
-=======
         for rec in self:
             for line in rec.preventive_maintenance_plan_ids:
 
->>>>>>> 071c169 (Update V2)
                 self.env['maintenance.equipment.plan'].create({
                     'maintenance_equipment_id': line.equipment_id.id,
                     'tasks': line.tasks,

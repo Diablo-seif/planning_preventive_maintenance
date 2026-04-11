@@ -21,16 +21,11 @@ class MaintenanceEquipmentPlan(models.Model):
     interval = fields.Float(string="Interval", required=False)
     different = fields.Float(compute='_compute_different', string="Difference", required=False)
 
-<<<<<<< HEAD
-    task_duration = fields.Float(string="Task Duration" )
 
-    unit_measure = fields.Selection(related='maintenance_equipment_id.reading_unit_of_measure', string="Unit Measure", readonly=True)
-=======
     task_duration = fields.Float(string="Task Duration")
 
     unit_measure = fields.Selection(related='maintenance_equipment_id.reading_unit_of_measure', string="Unit Measure",
                                     readonly=True)
->>>>>>> 071c169 (Update V2)
 
     product_ids = fields.Many2many(
         comodel_name='product.product',
@@ -39,6 +34,7 @@ class MaintenanceEquipmentPlan(models.Model):
     )
     name = fields.Date(string="To Day", readonly=True)
     done = fields.Boolean(string="Done", default=False)
+
 
     @api.depends('task_duration', 'interval')
     def _compute_different(self):

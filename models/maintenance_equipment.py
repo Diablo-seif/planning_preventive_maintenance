@@ -33,13 +33,10 @@ class MaintenanceEquipment(models.Model):
     @api.depends('maintenance_equipment_reading_ids', 'maintenance_equipment_reading_ids.reading')
     def _compute_max_reading(self):
         for equipment in self:
-<<<<<<< HEAD
-            readings = equipment.maintenance_equipment_reading_ids.mapped('reading')
-=======
+
 
             readings = equipment.maintenance_equipment_reading_ids.mapped('reading')
 
->>>>>>> 071c169 (Update V2)
             equipment.reading = max(readings) if readings else 0.0
 
 
@@ -52,11 +49,8 @@ class MaintenanceEquipment(models.Model):
             ('maintenance_equipment_plan_ids', '!=', False),
             ('maintenance_equipment_plan_ids.done', '=', False),
         ]
-<<<<<<< HEAD
-        records_to_update = self.search(target_domain)
-=======
+
         records = self.search(target_domain)
->>>>>>> 071c169 (Update V2)
 
         if not records:
             return True

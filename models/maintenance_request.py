@@ -86,7 +86,3 @@ class MaintenanceRequestLines(models.Model):
     def _compute_difference(self):
         for line in self:
             line.difference = line.qty_available - line.quantity if line.quantity and line.qty_available else 0.0
-<<<<<<< HEAD
-=======
-
->>>>>>> 071c169 (Update V2)

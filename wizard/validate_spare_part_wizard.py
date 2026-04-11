@@ -19,18 +19,7 @@ class ValidateSparePartWizard(models.TransientModel):
             raise UserError(_("No warehouse found. Please configure a warehouse first."))
 
         stock_location = warehouse.lot_stock_id
-<<<<<<< HEAD
-        
-        source_location = self.env['stock.location'].search([
-            ('usage', '=', 'production'),
-        ], limit=1)
-        if not source_location:
-            source_location = self.env['stock.location'].search([
-                ('usage', '=', 'inventory'),
-            ], limit=1)
-        if not source_location:
-            raise UserError(_("No virtual source location found. Please check your stock locations."))
-=======
+
 
         inventory_location = self.env['stock.location'].search([
             ('usage', '=', 'inventory'),
@@ -39,7 +28,6 @@ class ValidateSparePartWizard(models.TransientModel):
 
         if not inventory_location:
             raise UserError(_("No virtual inventory location found. Please check your stock locations."))
->>>>>>> 071c169 (Update V2)
 
         for line in self.line_ids:
             product = line.product_id
@@ -83,25 +71,7 @@ class ValidateSparePartWizard(models.TransientModel):
                 })
 
                 picking.action_confirm()
-<<<<<<< HEAD
 
-                if not picking.move_line_ids:
-                    for move in picking.move_ids:
-                        self.env['stock.move.line'].create({
-                            'move_id': move.id,
-                            'picking_id': picking.id,
-                            'product_id': product.id,
-                            'product_uom_id': product.uom_id.id,
-                            'quantity': return_qty,
-                            'location_id': source_location.id,
-                            'location_dest_id': stock_location.id,
-                        })
-                else:
-                    for ml in picking.move_line_ids:
-                        ml.quantity = return_qty
-
-=======
->>>>>>> 071c169 (Update V2)
                 picking.button_validate()
 
             self.env['maintenance.request.line'].create({
@@ -134,10 +104,6 @@ class ValidateSparePartWizardLine(models.TransientModel):
         string='After Consumption',
         compute='_compute_difference',
     )
-<<<<<<< HEAD
-    
-=======
->>>>>>> 071c169 (Update V2)
 
     @api.depends('quantity', 'qty_available')
     def _compute_difference(self):
