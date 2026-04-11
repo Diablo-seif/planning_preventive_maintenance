@@ -23,7 +23,7 @@
                         <field name="spare_ordered_ids">
                             <list editable="bottom" no_open="1" create="0" delete="0">
                                 <field name="product_id"/>
-                                <field name="need" optional="hide"/>
+                                <field name="need"/>
                             </list>
                         </field>
                     </page>
@@ -31,7 +31,7 @@
                         <field name="maintenance_request_line_ids">
                             <list no_open="1" create="0" delete="0">
                                 <field name="product_id"/>
-                                <field name="quantity" optional="hide"/>
+                                <field name="quantity"/>
                             </list>
                         </field>
                     </page>
@@ -45,3 +45,5 @@
     </data>
 
 </odoo>
+
+

@@ -5,25 +5,25 @@
                   parent="maintenance.menu_maintenance_title"
                   sequence="3"/>
 
-        <menuitem id="menu_equipment_reading"
-                  name="Equipment Readings"
-                  action="hr_equipment_readings_action"
-                  parent="menu_maintenance_ops_cat"
-                  sequence="5"/>
 
-        <menuitem id="menu_preventive_maintenance_plan"
-                  name="Planned Preventive"
-                  action="planned_preventive_wizard_action"
-                  parent="menu_maintenance_ops_cat"
-                  sequence="10"/>
+            <menuitem id="menu_equipment_reading"
+                      name="Equipment Readings"
+                      action="hr_equipment_readings_action"
+                      parent="menu_maintenance_ops_cat"
+                      sequence="5"/>
+
+            <menuitem id="menu_preventive_maintenance_plan"
+                      name="Planned Preventive"
+                      action="planned_preventive_wizard_action"
+                      parent="menu_maintenance_ops_cat"
+                      sequence="10"/>
 
 
-
-        <menuitem id="menu_preventive_maintenance_plan_group"
-                  name="Planned Preventive Group"
-                  action="planned_preventive_group_wizard_action"
-                  parent="menu_maintenance_ops_cat"
-                  sequence="20"/>
+            <menuitem id="menu_preventive_maintenance_plan_group"
+                      name="Planned Preventive Group"
+                      action="planned_preventive_group_wizard_action"
+                      parent="menu_maintenance_ops_cat"
+                      sequence="20"/>
 
     </data>
 </odoo>

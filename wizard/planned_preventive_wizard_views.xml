@@ -15,7 +15,6 @@
                             <field name="different"/>
                             <field name="product_ids" widget="many2many_tags"
                                    options="{'no_create': True}"/>
-                            <field name="to_day" invisible="1" readonly="1" optional="hide"/>
                         </list>
                     </field>
                     <footer>
@@ -41,14 +40,13 @@
             <field name="model">planned.preventive.wizard</field>
             <field name="arch" type="xml">
                 <form string="Validate Spare Parts">
-                    <field name="name" invisible="1"/>
-                    <field name="user_id" invisible="1"/>
                     <group>
                         <group>
 
                             <field name="equipment_ids" widget="many2many_tags" options="{'no_create': True}"/>
                             <field name="tasks"/>
-                            <field name="product_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                            <field name="product_ids" widget="many2many_tags"
+                                   options="{'no_create': True}"/>
                         </group>
                         <group>
                             <field name="task_duration"/>
@@ -78,3 +76,5 @@
     </data>
 
 </odoo>
+
+

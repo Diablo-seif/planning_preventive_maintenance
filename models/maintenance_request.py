@@ -1,6 +1,5 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError, UserError
-from datetime import date, timedelta, datetime, time
 
 
 class MaintenanceRequest(models.Model):
@@ -29,14 +28,15 @@ class MaintenanceRequest(models.Model):
         required=False, )
 
     def action_go_validate_spare_part(self):
+        self.ensure_one()
         spare_ordered_ids = [
             (0, 0, {
                 'product_id': line.product_id.id,
 
             }) for line in self.spare_ordered_ids if line.product_id and  line.need  ]
 
-        for rec in self :
-            rec.spare_ordered_ids.need = False
+        self.spare_ordered_ids.write({'need': False})
+
 
         return {
             'type': 'ir.actions.act_window',
@@ -46,6 +46,7 @@ class MaintenanceRequest(models.Model):
             'target': 'new',
             'context': {
                 'default_maintenance_request_id': self.id,
+                'default_quantity': 1,
                 'default_line_ids': spare_ordered_ids,
             }
         }
@@ -63,11 +64,10 @@ class MaintenanceRequestLines(models.Model):
 
     done = fields.Boolean(default=False, readonly=True)
 
-    wizard_id = fields.Many2one(
-        comodel_name="validate.spare.part.wizard",
-    )
 
-    product_id = fields.Many2one('product.template', string="Product", domain=[('spare_parts_ok', '=', True)], )
+
+    product_id = fields.Many2one('product.product', string="Product", domain=[('spare_parts_ok', '=', True)], )
+
     quantity = fields.Float(string="Quantity", default=1.0)
     qty_available = fields.Float(
         'On Hand', compute='_compute_qty_available', )
@@ -86,3 +86,7 @@ class MaintenanceRequestLines(models.Model):
     def _compute_difference(self):
         for line in self:
             line.difference = line.qty_available - line.quantity if line.quantity and line.qty_available else 0.0
+<<<<<<< HEAD
+=======
+
+>>>>>>> 071c169 (Update V2)

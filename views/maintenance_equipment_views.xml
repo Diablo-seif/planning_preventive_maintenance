@@ -8,6 +8,23 @@
             <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
             <field name="arch" type="xml">
 
+<<<<<<< HEAD
+=======
+                <xpath expr="//sheet" position="before">
+                    <header>
+
+                        <button name="maintenance_request_plans"
+                                string="Maintenance Request Plans"
+                                type="object"
+                                class="oe_highlight"
+                        />
+                    </header>
+
+
+                </xpath>
+
+
+>>>>>>> 071c169 (Update V2)
                 <xpath expr="//field[@name='employee_id']" position="after">
                     <field name="reading_unit_of_measure" string="Maintenance Procedure"/>
                     <field name="reading" readonly="1" string="Last Read"/>
@@ -22,22 +39,20 @@
                                 <field name="user_id" readonly="1"/>
                                 <field name="reading"/>
                                 <field name="unit_measure"/>
-                                <field name="to_day" readonly="1" optional="hide"/>
                             </list>
                         </field>
                     </page>
 
                     <page string="Maintenance Plan" name="maintenance_plan">
                         <field name="maintenance_equipment_plan_ids">
-                            <list no_open="1" create="0" default_order="done asc, task_duration asc">
+                            <list editable="bottom"  no_open="1" create="0" default_order="done asc, task_duration asc">
                                 <field name="tasks"/>
                                 <field name="user_id"/>
                                 <field name="interval"/>
                                 <field name="task_duration" string="Consumption"/>
                                 <field name="unit_measure"/>
-                                <field name="different"/>
-                                <field name="product_ids" widget="many2many_tags" options="{'no_create': True}"/>
-                                <field name="to_day" invisible="1" optional="hide"/>
+                                <field name="product_ids" widget="many2many_tags"
+                                       options="{'no_create': True}"/>
                                 <field name="done"/>
                             </list>
                         </field>
@@ -52,3 +67,4 @@
     </data>
 
 </odoo>
+

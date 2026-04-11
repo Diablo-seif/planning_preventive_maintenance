@@ -1,7 +1,8 @@
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
-class MaintenanceEquipmentPlan (models.Model):
+
+class MaintenanceEquipmentPlan(models.Model):
     _name = 'maintenance.equipment.plan'
     _description = "Plan for Maintenance Equipment"
     _order = 'done asc, task_duration asc'
@@ -10,23 +11,36 @@ class MaintenanceEquipmentPlan (models.Model):
         comodel_name="maintenance.equipment",
         string="Maintenance Request",
     )
-    user_id = fields.Many2one('res.users', 'User', readonly=True)
+
+    user_id = fields.Many2one('res.users', 'User', default=lambda self: self.env.user, readonly=True)
 
     tasks = fields.Char(
         string="Tasks",
     )
 
-    interval = fields.Float(string="Interval",  required=False )
-    different = fields.Float(string="Difference", required=False)
+    interval = fields.Float(string="Interval", required=False)
+    different = fields.Float(compute='_compute_different', string="Difference", required=False)
 
+<<<<<<< HEAD
     task_duration = fields.Float(string="Task Duration" )
 
     unit_measure = fields.Selection(related='maintenance_equipment_id.reading_unit_of_measure', string="Unit Measure", readonly=True)
+=======
+    task_duration = fields.Float(string="Task Duration")
+
+    unit_measure = fields.Selection(related='maintenance_equipment_id.reading_unit_of_measure', string="Unit Measure",
+                                    readonly=True)
+>>>>>>> 071c169 (Update V2)
 
     product_ids = fields.Many2many(
-        comodel_name='product.template',
+        comodel_name='product.product',
         string="Spare Parts",
         domain=[('spare_parts_ok', '=', True)]
     )
-    to_day = fields.Date(string="To Day", readonly=True)
-    done = fields.Boolean(string="Done",  default=False)
+    name = fields.Date(string="To Day", readonly=True)
+    done = fields.Boolean(string="Done", default=False)
+
+    @api.depends('task_duration', 'interval')
+    def _compute_different(self):
+        for rec in self:
+            rec.different = rec.task_duration - rec.interval

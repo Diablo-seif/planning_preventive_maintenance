@@ -1,12 +1,15 @@
-from email.policy import default
-
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from datetime import date
+from odoo.fields import Command
 
 
 class PlannedPreventive(models.TransientModel):
+<<<<<<< HEAD
     _name = 'planned.preventive.wizard' 
+=======
+    _name = 'planned.preventive.wizard'
+>>>>>>> 071c169 (Update V2)
     _description = 'Planned Preventive wizard'
 
     name = fields.Date(string="To Day", default=lambda self: date.today())
@@ -15,28 +18,45 @@ class PlannedPreventive(models.TransientModel):
                                                       inverse_name="equipment_readings_id", string="Reading",
                                                       required=False, )
     equipment_ids = fields.Many2many(comodel_name="maintenance.equipment", string="Equipments", )
+
     product_ids = fields.Many2many(
-        comodel_name='product.template',
+        comodel_name='product.product',
         string="Spare Parts",
         domain=[('spare_parts_ok', '=', True)]
     )
+<<<<<<< HEAD
+=======
+
+>>>>>>> 071c169 (Update V2)
     tasks = fields.Char(string="Tasks", required=True, default="New")
     task_duration = fields.Float(string="Task Duration", required=False)
     interval = fields.Float(string="Interval", required=False)
-    different = fields.Float(compute='_compute_different', string="Difference", required=False, store=True)
+    different = fields.Float(compute='_compute_different', string="Difference", required=False)
+
+    @api.depends('task_duration', 'interval')
+    def _compute_different(self):
+        for rec in self:
+            rec.different = rec.task_duration - rec.interval
+
 
     def action_confirm(self):
+<<<<<<< HEAD
         for wizard in self:
             for line in wizard.preventive_maintenance_plan_ids:
+=======
+        for rec in self:
+            for line in rec.preventive_maintenance_plan_ids:
+
+>>>>>>> 071c169 (Update V2)
                 self.env['maintenance.equipment.plan'].create({
                     'maintenance_equipment_id': line.equipment_id.id,
                     'tasks': line.tasks,
                     'interval': line.interval,
                     'task_duration': line.task_duration,
                     'different': line.different,
-                    'product_ids': [(6, 0, line.product_ids.ids)],
-                    'user_id': wizard.user_id.id,
-                    'to_day': line.to_day,
+                    'product_ids': [Command.set(line.product_ids.ids)],
+                    'user_id': rec.user_id.id,
+                    'name': line.name,
                 })
         return {'type': 'ir.actions.act_window_close'}
 
@@ -45,22 +65,16 @@ class PlannedPreventive(models.TransientModel):
             for line in rec.equipment_ids:
                 self.env['maintenance.equipment.plan'].create({
                     'maintenance_equipment_id': line.id,
-
                     'tasks': rec.tasks,
                     'interval': rec.interval,
                     'task_duration': rec.task_duration,
                     'different': rec.different,
-                    'product_ids': [(6, 0, rec.product_ids.ids)],
+                    'product_ids': [Command.set(rec.product_ids.ids)],
                     'user_id': rec.user_id.id,
-                    'to_day': rec.name,
+                    'name': rec.name,
                 })
         return {'type': 'ir.actions.act_window_close'}
 
-
-    @api.depends('task_duration', 'interval')
-    def _compute_different(self):
-        for rec in self:
-            rec.different = rec.task_duration - rec.interval
 
 
 
@@ -78,16 +92,19 @@ class PreventiveMaintenancePlan(models.TransientModel):
     tasks = fields.Char(string="Tasks", required=True, default="New")
     task_duration = fields.Float(string="Task Duration", required=False)
     interval = fields.Float(string="Interval", required=False)
-    different = fields.Float(compute='_compute_different', string="Difference", required=False, store=True)
+    different = fields.Float(compute='_compute_different', string="Difference", required=False)
 
     product_ids = fields.Many2many(
-        comodel_name='product.template',
+        comodel_name='product.product',
         string="Spare Parts",
         domain=[('spare_parts_ok', '=', True)]
     )
-    to_day = fields.Date(string="To Day", default=lambda self: date.today())
+
+    name = fields.Date(string="To Day", default=lambda self: date.today())
 
     @api.depends('task_duration', 'interval')
     def _compute_different(self):
         for rec in self:
             rec.different = rec.task_duration - rec.interval
+
+

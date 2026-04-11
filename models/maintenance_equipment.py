@@ -33,10 +33,18 @@ class MaintenanceEquipment(models.Model):
     @api.depends('maintenance_equipment_reading_ids', 'maintenance_equipment_reading_ids.reading')
     def _compute_max_reading(self):
         for equipment in self:
+<<<<<<< HEAD
             readings = equipment.maintenance_equipment_reading_ids.mapped('reading')
+=======
+
+            readings = equipment.maintenance_equipment_reading_ids.mapped('reading')
+
+>>>>>>> 071c169 (Update V2)
             equipment.reading = max(readings) if readings else 0.0
 
-    def maintenance_request_plans(self):
+
+    @api.model
+    def maintenance_request_plans(self, *args, **kwargs):
         today = fields.Date.today()
         scheduled_dt = datetime.combine(today, time(9, 0, 0))
         admin_user = self.env.ref('base.user_admin')
@@ -44,34 +52,40 @@ class MaintenanceEquipment(models.Model):
             ('maintenance_equipment_plan_ids', '!=', False),
             ('maintenance_equipment_plan_ids.done', '=', False),
         ]
+<<<<<<< HEAD
         records_to_update = self.search(target_domain)
+=======
+        records = self.search(target_domain)
+>>>>>>> 071c169 (Update V2)
 
-        if not records_to_update:
+        if not records:
             return True
-        for request in records_to_update:
 
-            sorted_plans = request.maintenance_equipment_plan_ids.sorted(
+        for rec in records:
+
+            sorted_plans = rec.maintenance_equipment_plan_ids.sorted(
                 key=lambda p: (p.done, p.task_duration)
             )
 
             for plan in sorted_plans:
 
                 if plan.done:
-                    continue
+                    break
 
-                elif not plan.done:
+
+                else:
                     alert_start_limit = plan.task_duration - plan.interval
-                    # plan.interval <= plan.task_duration
-                    if request.reading >= alert_start_limit:
+
+                    if rec.reading >= alert_start_limit:
                         spare_ordered_ids = [
                             (0, 0, {'product_id': line.id})
                             for line in plan.product_ids
                         ]
 
-                        request.env["maintenance.request"].sudo().create({
+                        self.env["maintenance.request"].sudo().create({
                             'name': plan.tasks,
                             'maintenance_for': 'equipment',
-                            'equipment_id': request.id,
+                            'equipment_id': rec.id,
                             'maintenance_type': 'preventive',
                             'user_id': admin_user.id,
                             'spare_ordered_ids': spare_ordered_ids,
@@ -83,6 +97,7 @@ class MaintenanceEquipment(models.Model):
 
                     else:
                         break
-                else:
-                    break
+
+                break
+
         return True
