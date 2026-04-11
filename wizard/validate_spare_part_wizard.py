@@ -95,7 +95,7 @@ class ValidateSparePartWizardLine(models.TransientModel):
             domain=[('spare_parts_ok', '=', True)],
             required=True
         )
-    quantity = fields.Float(string="Quantity", default=0.0)
+    quantity = fields.Float(string="Quantity", default=1)
     qty_available = fields.Float(
         string='On Hand',
         compute='_compute_qty_available',
